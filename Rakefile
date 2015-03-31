@@ -28,6 +28,7 @@ require './ci/sysstat'
 require './ci/ssh'
 require './ci/supervisord'
 require './ci/tomcat'
+require './ci/zookeeper'
 
 CLOBBER.include '**/*.pyc'
 
