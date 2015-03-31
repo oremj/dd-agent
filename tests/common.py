@@ -149,7 +149,6 @@ class AgentCheckTest(unittest.TestCase):
                 print "Exception {0} during check".format(e)
                 print traceback.format_exc()
                 error = e
-
         self.metrics = self.check.get_metrics()
         self.events = self.check.get_events()
         self.service_checks = self.check.get_service_checks()
@@ -245,12 +244,15 @@ WARNINGS
             self.print_current_state()
             raise
 
-    def assertMetric(self, metric_name, value=None, tags=None, count=None, at_least=1):
+    def assertMetric(self, metric_name, value=None, tags=None, additional_attr=None, count=None, at_least=1):
         log.debug("Looking for metric {0}".format(metric_name))
         if value is not None:
             log.debug(" * with value {0}".format(value))
         if tags is not None:
             log.debug(" * tagged with {0}".format(tags))
+        if additional_attr is not None:
+            for k, v in additional_attr.iteritems():
+                log.debug(" * with {0}={1}".format(k, v))
         if count is not None:
             log.debug(" * should have exactly {0} data points".format(count))
         if at_least is not None:
@@ -263,6 +265,12 @@ WARNINGS
                     continue
                 if tags is not None and sorted(tags) != sorted(mdata.get("tags", [])):
                     continue
+                if additional_attr is not None:
+                    def match_attr(attr):
+                        attr_name, attr_value = attr
+                        return mdata.get(attr_name) == attr_value
+                    if not all(map(match_attr, additional_attr.items())):
+                        continue
 
                 candidates.append((m_name, ts, val, mdata))
 
