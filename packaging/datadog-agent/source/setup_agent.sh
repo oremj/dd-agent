@@ -1,9 +1,12 @@
 #!/bin/sh
 
+# Bail on errors
+set -e
+
 # figure out where to pull from
 tag="5.2.2"
 
-PIP_VERSION="6.0.6"
+PIP_VERSION="6.0.8"
 
 #######################
 # Define some helpers #
