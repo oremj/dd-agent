@@ -89,7 +89,7 @@ instances:
   # Fetch process metrics for a set of processes, tagging by app name, and command line params.
   - class: Win32_PerfFormattedData_PerfProc_Process
     metrics:
-      - [IOReadBytesPerSec, proc.io.bytes_read, gauge]
+      - [IOReadBytesPersec, proc.io.bytes_read, gauge]
     filters:
       - Name: app1
       - Name: app2
